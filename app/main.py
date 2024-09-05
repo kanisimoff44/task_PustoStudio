@@ -1,8 +1,7 @@
 from fastapi import FastAPI
 
-app = FastAPI()
+from app.task_two.router import router as task_two_router
 
+app = FastAPI(title="Pusto studio",)
 
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
+app.include_router(task_two_router)
