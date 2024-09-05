@@ -1,7 +1,4 @@
-# docker compose build - используем эту команду, если меняли что-то в Dockerfile
-# docker compose up - если изменили только docker-compose
-
-version: "3.8"
+version: "3.9"
 services:
   nginx:
     build:
@@ -9,8 +6,8 @@ services:
       dockerfile: "Dockerfile.nginx"
     container_name: test_task_nginx
     ports:
-      - 81:80
-      - 444:443
+      - 80:80
+      - 443:443
     links:
       - test_task
 
