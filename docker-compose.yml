@@ -1,0 +1,41 @@
+# docker compose build - используем эту команду, если меняли что-то в Dockerfile
+# docker compose up - если изменили только docker-compose
+
+version: "3.8"
+services:
+  nginx:
+    build:
+      context: .
+      dockerfile: "Dockerfile.nginx"
+    container_name: test_task_nginx
+    ports:
+      - 81:80
+      - 444:443
+    links:
+      - test_task
+
+  db:
+    image: postgres:15
+    container_name: test_task_db
+    volumes:
+      - postgresdata:/var/lib/postgresql/data
+    env_file:
+      - .env-non-dev
+    ports:
+      - 2345:5432
+
+  test_task:
+    image: test_task
+    build:
+      context: .
+    container_name: test_task
+    env_file:
+      - .env-non-dev
+    depends_on:
+      - db
+    command: ["/test_task/docker/app.sh"]
+    # ports:
+      # - 8080:8000
+
+volumes:
+  postgresdata:
