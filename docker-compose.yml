@@ -1,15 +1,15 @@
 version: "3.9"
 services:
-  nginx:
-    build:
-      context: .
-      dockerfile: "Dockerfile.nginx"
-    container_name: test_task_nginx
-    ports:
-      - 80:80
-      - 443:443
-    links:
-      - test_task
+#   nginx:
+#     build:
+#       context: .
+#       dockerfile: "Dockerfile.nginx"
+#     container_name: test_task_nginx
+#     ports:
+#       - 80:80
+#       - 443:443
+#     links:
+#       - test_task
 
   db:
     image: postgres:15
@@ -19,7 +19,7 @@ services:
     env_file:
       - .env
     ports:
-      - 2345:5432
+      - 5432:5432
 
   test_task:
     image: test_task
@@ -27,12 +27,12 @@ services:
       context: .
     container_name: test_task
     env_file:
-      - .env-non-dev
+      - .env
     depends_on:
       - db
     command: ["/test_task/docker/app.sh"]
-    # ports:
-      # - 8080:8000
+    ports:
+      - 8000:8000
 
 volumes:
   postgresdata:
